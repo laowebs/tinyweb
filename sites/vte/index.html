@@ -1,1 +1,308 @@
-VTE
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VTE Tiny - ສ້າງເວັບໄຊທ໌ແບບ Retro ດ້ວຍ 1 ຄລິກ!</title>
+    <!-- Google Fonts for Retro/Pixel feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+Lao:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --container-bg: #111827;
+            --border-retro: #374151;
+            --primary-green: #10b981;
+            --accent-pink: #ec4899;
+            --accent-yellow: #f59e0b;
+            --accent-cyan: #06b6d4;
+            --text-light: #f3f4f6;
+            --text-muted: #9ca3af;
+            --pixel-shadow: 4px 4px 0px #000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            font-family: 'Noto Sans Lao', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 50% 50%, #1f2937 1px, transparent 1px),
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--container-bg);
+            border: 4px solid var(--text-light);
+            box-shadow: 8px 8px 0px #000;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            padding: 24px;
+            position: relative;
+        }
+
+        /* Retro Window Header */
+        .window-header {
+            background: var(--accent-cyan);
+            color: #000;
+            padding: 8px 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #000;
+            margin-bottom: 24px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+        }
+
+        .window-buttons span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #000;
+            margin-left: 4px;
+            border: 1px solid #fff;
+            cursor: pointer;
+        }
+
+        header.hero {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(16px, 4vw, 24px);
+            color: var(--accent-yellow);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            text-shadow: 3px 3px 0px #000;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Retro Badge */
+        .badge {
+            display: inline-block;
+            background: var(--accent-pink);
+            color: white;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-family: 'Press Start 2P', monospace;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0px #000;
+            margin-bottom: 20px;
+            transform: rotate(-1deg);
+        }
+
+        /* Demo Card / Terminal Box */
+        .terminal-box {
+            background: #000;
+            border: 3px inset var(--border-retro);
+            padding: 16px;
+            font-family: monospace;
+            color: var(--primary-green);
+            margin-bottom: 24px;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .terminal-box::before {
+            content: "vte-terminal v1.0";
+            position: absolute;
+            top: -10px;
+            right: 12px;
+            background: #000;
+            color: var(--text_muted);
+            font-size: 10px;
+            padding: 0 4px;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .feature-card {
+            background: #1f2937;
+            border: 3px solid var(--border-retro);
+            padding: 16px;
+            box-shadow: 4px 4px 0px #000;
+            transition: transform 0.1s ease;
+        }
+
+        .feature-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--accent-cyan);
+        }
+
+        .feature-card h3 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Interactive Action Box */
+        .action-box {
+            background: #1e1b4b;
+            border: 3px dashed var(--accent-pink);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: var(--primary-green);
+            color: #000;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            padding: 12px 20px;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px #000;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: all 0.05s ease;
+        }
+
+        .btn:hover {
+            background: #34d399;
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        .btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 2px solid var(--border-retro);
+            padding-top: 16px;
+            margin-top: 20px;
+        }
+
+        .marquee-container {
+            background: var(--accent-yellow);
+            color: #000;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            padding: 6px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border: 2px solid #000;
+            margin-bottom: 20px;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate(100%, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Retro Window Bar -->
+        <div class="window-header">
+            <span>✨ VTE-TINY.SURGE.SH</span>
+            <div class="window-buttons">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- Marquee Announcement -->
+        <div class="marquee-container">
+            <span class="marquee-content">🚀 ยິນດີຕ້ອນຮັບສູ່ VTE Tiny Platform! ສ້າງເວັບໄຊທ໌ງ່າຍໆ ຜ່ານ Vientiane City 🇱🇦 Deploy ໄວ 100% ອັດຕະໂນມັດ!</span>
+        </div>
+
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="badge">Vientiane Retro Hub 🇱🇦</div>
+            <h1>VTE TINY WEB</h1>
+            <p class="subtitle">แพลตฟอร์มDeployເວັບໄຊທ໌ຂະໜາດນ້ອຍ ສູ່ໂລກອອນລາຍແບບ Nostalgia & Pixel Style!</p>
+        </header>
+
+        <!-- Live Terminal Status -->
+        <div class="terminal-box">
+            > system: vte-tiny online<br>
+            > location: vientiane, laos [🇱🇦]<br>
+            > status: ready for deployment (*-tiny.surge.sh)<br>
+            > visitor: hello retro coder! <span style="animation: blink 1s infinite">_</span>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="features">
+            <div class="feature-card">
+                <h3>⚡ ໄວຄືກັນສາຍຟ້າ</h3>
+                <p>ອັບໂຫຼດໄຟລ໌ HTML ຂອງທ່ານແລ້ວລະບົບ GitHub Actions + Surge จะ Deploy ໃຫ້ທັນທີ!</p>
+            </div>
+            <div class="feature-card">
+                <h3>🕹️ Pixel & Retro</h3>
+                <p>ดีไซน์ຍຸກ 90s - 2000s ທີ່ເຕັມໄປດ້ວຍຄວາມຊົງຈຳ ຫຼິ້ນມ່ວນ ແລະ ຮອງຮັບມືຖືເຕັມຮູບແບບ.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔒 ປອດໄພ & ສ່ວນຕົວ</h3>
+                <p>ລະບົບ Token ແລະ Subdomain แยกຊັດເຈນ ພ້ອມຂະຫຍາຍສູ່ລະບົບ Premium ໃນອະນາຄົດ.</p>
+            </div>
+        </div>
+
+        <!-- Action / Interactive Callout -->
+        <div class="action-box">
+            <h3 style="font-family: 'Press Start 2P', monospace; font-size: 13px; color: var(--accent-yellow); margin-bottom: 8px;">ພ້ອມສ້າງເວັບຂອງທ່ານແລ້ວບໍ?</h3>
+            <p style="font-size: 14px; color: var(--text-light); margin-bottom: 14px;">ສ້າງ Folder ໃນ GitHub ຕระกูล <code>sites/ชื่อเว็บของคุณ</code> ແລ້ວຮັບ Link <code>*-tiny.surge.sh</code> ໄດ້ເລີຍ!</p>
+            <a href="https://github.com/laowebs/tinyweb" target="_blank" class="btn">🚀 ไปที่ GitHub Repository</a>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 VTE Tiny Platform • Made with ❤️ in Vientiane, Laos.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
