@@ -6,38 +6,101 @@
     <title>TinyWeb - ລະບົບສ້າງເວັບໄຊອັດຕະໂນມັດ</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-900 text-white font-sans min-h-screen flex flex-col items-center justify-center p-4">
+<body class="bg-slate-950 text-white font-sans min-h-screen flex flex-col items-center justify-center p-4">
 
-    <div class="max-w-xl w-full bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700">
-        <h1 class="text-3xl font-bold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-400">
-            TinyWeb AI Builder
-        </h1>
-        <p class="text-slate-400 text-center mb-6">ສ້າງເວັບໄຊງ່າຍໆ ດ້ວຍ AI ຫຼື ອັບໂຫຼດໄຟລ໌ ພາຍໃນ 1 ນາທີ</p>
+    <div class="max-w-2xl w-full bg-slate-900 p-8 rounded-2xl shadow-2xl border border-slate-800">
+        <!-- Logo & Title -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-400 to-emerald-400">
+                TinyWeb AI
+            </h1>
+            <p class="text-slate-400 mt-2">ສ້າງເວັບໄຊສ່ວນຕົວໄດ້ງ່າຍໆ ພາຍໃນ 1 ນາທີ ຜ່ານ `.laowebs.com`</p>
+        </div>
 
-        <!-- Form ຕົວຢ່າງ -->
-        <div class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">ເລືອກຊື່ Subdomain (ຕົວຢ່າງ: myshop)</label>
-                <div class="flex">
-                    <input type="text" id="subdomain" placeholder="ຊື່ເວັບຂອງທ່ານ" class="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-l-lg focus:outline-none focus:border-blue-500 text-white">
-                    <span class="bg-slate-700 px-4 py-2 rounded-r-lg border border-l-0 border-slate-700 text-slate-400 flex items-center">.laowebs.com</span>
-                </div>
+        <!-- Subdomain Input (ໃຊ້ຮ່ວມກັນທຸກ Option) -->
+        <div class="mb-6 bg-slate-800/50 p-4 rounded-xl border border-slate-800">
+            <label class="block text-sm font-medium text-slate-300 mb-2">1. ຕັ້ງຊື່ Subdomain ຂອງທ່ານ</label>
+            <div class="flex">
+                <input type="text" id="subdomain" placeholder="ຕົວຢ່າງ: myshop" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-l-lg focus:outline-none focus:border-blue-500 text-white font-medium">
+                <span class="bg-slate-800 px-4 py-2.5 rounded-r-lg border border-l-0 border-slate-700 text-slate-400 flex items-center text-sm font-semibold">.laowebs.com</span>
             </div>
+        </div>
 
+        <!-- Tabs Switcher (3 Options) -->
+        <div class="flex border-b border-slate-800 mb-6">
+            <button onclick="switchTab('ai')" id="btn-ai" class="flex-1 pb-3 font-semibold text-blue-400 border-b-2 border-blue-400 transition">✨ ສ້າງດ້ວຍ AI</button>
+            <button onclick="switchTab('upload')" id="btn-upload" class="flex-1 pb-3 font-semibold text-slate-400 hover:text-white transition">📂 ອັບໂຫຼດໄຟລ໌</button>
+            <button onclick="switchTab('template')" id="btn-template" class="flex-1 pb-3 font-semibold text-slate-400 hover:text-white transition">🎨 ເລືອກ Template</button>
+        </div>
+
+        <!-- Option 1: AI Prompt -->
+        <div id="tab-ai" class="space-y-4">
             <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">ພິມຄຳສັ່ງ (Prompt) ໃຫ້ AI ສ້າງເວັບ</label>
-                <textarea rows="3" placeholder="ຕົວຢ່າງ: ສ້າງເວັບໄຊຮ້ານຂາຍກາເຟ ໂທນສີອຸ່ນໆ ມີເມນູ ແລະ ເບີໂທຕິດຕໍ່..." class="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:border-blue-500 text-white"></textarea>
+                <label class="block text-sm font-medium text-slate-300 mb-2">ພິມຄຳສັ່ງ (Prompt) ໃຫ້ AI</label>
+                <textarea rows="4" placeholder="ຕົວຢ່າງ: ສ້າງເວັບໄຊແນະນຳຮ້ານຊາບູ ໂທນສີແດງ-ດຳ ມີເມນູອາຫານ ແລະ ປຸ່ມຕິດຕໍ່ WhatsApp..." class="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-lg focus:outline-none focus:border-blue-500 text-white text-sm"></textarea>
             </div>
-
-            <button onclick="alert('ລະບົບກຳລັງເຊື່ອມຕໍ່ Backend ພ້ອມໃຊ້ງານ!')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-lg">
-                🚀 ສ້າງເວັບໄຊເລີຍ
+            <button onclick="alert('ກຳລັງສົ່ງຄຳສັ່ງໃຫ້ AI...')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-lg transition shadow-lg shadow-blue-600/20">
+                🚀 ສ້າງເວັບໄຊດ້ວຍ AI
             </button>
         </div>
+
+        <!-- Option 2: File Upload (ซ่อนไว้ก่อน) -->
+        <div id="tab-upload" class="space-y-4 hidden">
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-2">ອັບໂຫຼດໄຟລ໌ index.html ຂອງທ່ານ</label>
+                <input type="file" accept=".html" class="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-lg text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500">
+            </div>
+            <button onclick="alert('ກຳລັງອັບໂຫຼດໄຟລ໌...')" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-3 rounded-lg transition shadow-lg shadow-teal-600/20">
+                📤 Deploy ໄຟລ໌ຂຶ້ນເວັບ
+            </button>
+        </div>
+
+        <!-- Option 3: Template (ซ่อนไว้ก่อน) -->
+        <div id="tab-template" class="space-y-4 hidden">
+            <label class="block text-sm font-medium text-slate-300 mb-2">ເລືອກຮູບແບບເວັບໄຊສຳເລັດຮູບ</label>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-blue-500 bg-slate-950">
+                    <div class="h-20 bg-slate-800 rounded mb-2 flex items-center justify-center text-xs text-slate-400">Coffee Shop</div>
+                    <p class="text-sm font-medium text-center">ຮ້ານກາເຟ</p>
+                </div>
+                <div class="border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-blue-500 bg-slate-950">
+                    <div class="h-20 bg-slate-800 rounded mb-2 flex items-center justify-center text-xs text-slate-400">Portfolio</div>
+                    <p class="text-sm font-medium text-center">ໂປຣໄຟລ໌ສ່ວນຕົວ</p>
+                </div>
+            </div>
+            <button onclick="alert('ສ້າງເວັບຈາກ Template ສຳເລັດ!')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-lg transition shadow-lg shadow-emerald-600/20">
+                ✨ ສ້າງເວັບຈາກ Template ນີ້
+            </button>
+        </div>
+
     </div>
 
-    <footer class="mt-8 text-slate-500 text-sm">
-        &copy; 2026 TinyWeb. Powered by LaoWebs & Vercel.
+    <footer class="mt-8 text-slate-500 text-xs">
+        &copy; 2026 TinyWeb. Powered by LaoWebs & Surge.sh
     </footer>
 
+    <!-- Script ສຳລັບສະຫຼັບ Tabs -->
+    <script>
+        function switchTab(tab) {
+            document.getElementById('tab-ai').classList.add('hidden');
+            document.getElementById('tab-upload').classList.add('hidden');
+            document.getElementById('tab-template').classList.add('hidden');
+
+            document.getElementById('btn-ai').className = "flex-1 pb-3 font-semibold text-slate-400 hover:text-white transition border-b-2 border-transparent";
+            document.getElementById('btn-upload').className = "flex-1 pb-3 font-semibold text-slate-400 hover:text-white transition border-b-2 border-transparent";
+            document.getElementById('btn-template').className = "flex-1 pb-3 font-semibold text-slate-400 hover:text-white transition border-b-2 border-transparent";
+
+            if (tab === 'ai') {
+                document.getElementById('tab-ai').classList.remove('hidden');
+                document.getElementById('btn-ai').className = "flex-1 pb-3 font-semibold text-blue-400 border-b-2 border-blue-400 transition";
+            } else if (tab === 'upload') {
+                document.getElementById('tab-upload').classList.remove('hidden');
+                document.getElementById('btn-upload').className = "flex-1 pb-3 font-semibold text-teal-400 border-b-2 border-teal-400 transition";
+            } else if (tab === 'template') {
+                document.getElementById('tab-template').classList.remove('hidden');
+                document.getElementById('btn-template').className = "flex-1 pb-3 font-semibold text-emerald-400 border-b-2 border-emerald-400 transition";
+            }
+        }
+    </script>
 </body>
 </html>
