@@ -100,7 +100,7 @@
         &copy; 2026 TinyWeb. Powered by LaoWebs & Surge.sh
     </footer>
 
-    <!-- JavaScript logic -->
+    <!-- JavaScript logic สำหรับเชื่อมต่อ Backend API -->
     <script>
         function switchTab(tab) {
             document.getElementById('tab-ai').classList.add('hidden');
@@ -141,6 +141,44 @@
             } else if (mode === 'paste') {
                 document.getElementById('upload-paste-box').classList.remove('hidden');
                 document.getElementById('sub-paste').className = "py-2 rounded bg-slate-800 text-white transition";
+            }
+        }
+
+        // ฟังก์ชันหลักสำหรับส่งข้อมูลไป Deploy
+        async function handleDeploy() {
+            const subdomain = document.getElementById('subdomain').value.trim();
+            const pasteCode = document.getElementById('paste-code-input').value; // สมมติ ID ของ textarea วางโค้ด
+
+            if (!subdomain) {
+                alert('กรุณากรอกชื่อ Subdomain ก่อน!');
+                return;
+            }
+
+            alert('กำลังส่งข้อมูลเพื่อสร้างเว็บไซต์...');
+
+            try {
+                const response = await fetch('/api/deploy', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        subdomain: subdomain,
+                        htmlContent: pasteCode || '<h1>Hello from ' + subdomain + '.laowebs.com</h1>'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('สำเร็จ! เว็บไซต์ของคุณถูกสร้างแล้วที่: ' + result.url);
+                    window.location.href = result.url;
+                } else {
+                    alert('เกิดข้อผิดพลาด: ' + result.error);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('เชื่อมต่อกับ Server ล้มเหลว');
             }
         }
     </script>
