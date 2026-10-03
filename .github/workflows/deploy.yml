@@ -24,8 +24,8 @@ jobs:
 
       - name: Deploy each site to Surge
         env:
-          SURGE_LOGIN: ${{ laowebs.official@gmail.com }}       # ຢູເຊີ (ອີເມວ) Surge ຂອງເຈົ້າ
-          SURGE_TOKEN: ${{ 56d5b4ddb44f28c4ec729d31a49310d8 }}       # Token ຂອງ Surge ຂອງເຈົ້າ
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}       # ຢູເຊີ (ອີເມວ) Surge ຂອງເຈົ້າ
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}       # Token ຂອງ Surge ຂອງເຈົ້າ
         run: |
           echo "Starting deployment of subdomains..."
           
