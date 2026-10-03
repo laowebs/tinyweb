@@ -33,7 +33,7 @@ jobs:
           for site_dir in sites/*; do
             if [ -d "$site_dir" ]; then
               subdomain=$(basename "$site_dir")
-              domain="${subdomain}.surge.sh"
+              domain="${subdomain}-tiny.surge.sh"
               
               echo "Deploying $subdomain to $domain using Surge..."
               
