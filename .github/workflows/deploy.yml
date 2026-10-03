@@ -1,0 +1,43 @@
+name: Deploy TinyWeb Sites to Surge
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'sites/**'  # ເຮັດວຽກສະເພາະເວລາທີ່ມີການປ່ຽນແປງໃນ Folder sites/ ເທົ່ານັ້ນ
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Surge CLI
+        run: npm install -g surge
+
+      - name: Deploy each site to Surge
+        env:
+          SURGE_LOGIN: ${{ laowebs.official@gmail.com }}       # ຢູເຊີ (ອີເມວ) Surge ຂອງເຈົ້າ
+          SURGE_TOKEN: ${{ 56d5b4ddb44f28c4ec729d31a49310d8 }}       # Token ຂອງ Surge ຂອງເຈົ້າ
+        run: |
+          echo "Starting deployment of subdomains..."
+          
+          # ວົນລູບຫາທຸກ Subdomain ທີ່ຢູ່ໃນ Folder sites/
+          for site_dir in sites/*; do
+            if [ -d "$site_dir" ]; then
+              subdomain=$(basename "$site_dir")
+              domain="${subdomain}.laowebs.com"
+              
+              echo "Deploying $subdomain to $domain using Surge..."
+              
+              # ສັ່ງ Deploy ໄຟລ໌ໃນ Folder ນັ້ນຂຶ້ນ Surge
+              surge --project "$site_dir" --domain "$domain"
+            fi
+          done
