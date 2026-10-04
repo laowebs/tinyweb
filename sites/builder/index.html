@@ -3,103 +3,358 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TinyWeb Builder - ສ້າງເວັບໄຊທ໌ງ່າຍໆ</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>TinyWeb - ສ້າງເວັບໄຊໃນ ໑ ນາທີ ດ້ວຍຕົນເອງ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Noto Sans Lao', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .smooth-transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center justify-center p-6">
+<body class="bg-gradient-to-br from-slate-100 via-indigo-50/40 to-slate-200 text-slate-800 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
 
-    <div class="w-full max-w-2xl bg-white border border-slate-200 rounded-2xl p-8 shadow-xl">
+    <!-- Main Card Container -->
+    <div class="max-w-2xl w-full glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl shadow-indigo-500/10 smooth-transition">
         
-        <!-- Header -->
-        <div class="text-center mb-6">
-            <h1 class="text-3xl font-bold text-indigo-600">TinyWeb Builder</h1>
-            <p class="text-slate-500 text-sm mt-1">ສ້າງ ແລະ Deploy หน้าเว็บไซต์ของคุณໄປທີ່ <span class="font-mono text-indigo-500 font-semibold">-tiny.surge.sh</span> ໄດ້ທັນທີ</p>
+        <!-- Header & Branding -->
+        <div class="text-center mb-8">
+            <span class="inline-block px-3.5 py-1 bg-indigo-100/80 text-indigo-700 text-xs font-bold rounded-full uppercase tracking-wider mb-3">Vibe-Code Studio ✨</span>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
+                ສ້າງເວັບໄຊໃນ <span class="text-indigo-600">໑ ນາທີ</span> ດ້ວຍຕົນເອງ
+            </h1>
+            <p class="text-slate-600 text-xs sm:text-sm mt-2 max-w-lg mx-auto leading-relaxed">
+                ບໍ່ຈຳເປັນຕ້ອງເປັນນັກສ້າງເວັບ ຫຼື ໂປຣແກຣມເມີ! ເໝາະສຳລັບເວັບຮ້ານຄ້າ, ເວັບໂຄສະນາ, ແລະ ໂປຣໂມດສິນຄ້າຂອງທ່ານເອງ.
+            </p>
         </div>
 
-        <div class="space-y-5">
-            <!-- ໃສ່ຊື່ Subdomain -->
-            <div>
-                <label class="block text-xs uppercase tracking-wider text-slate-500 mb-1.5 font-bold">ຊື່ Subdomain</label>
-                <div class="flex items-center bg-slate-50 border border-slate-300 rounded-xl overflow-hidden focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-100 transition-all">
-                    <input type="text" id="subdomain" placeholder="ຕົວຢ່າງ: open ຫຼື mysite" class="w-full bg-transparent px-4 py-3.5 text-slate-800 outline-none text-sm">
-                    <span class="px-4 text-slate-400 bg-slate-100 border-l border-slate-200 text-sm font-mono py-3.5">-tiny.surge.sh</span>
+        <!-- 1. Address / Subdomain Input -->
+        <div class="mb-6 bg-white/70 p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">1. ຕັ້ງຊື່ທີ່ຢູ່ເວັບໄຊຂອງທ່ານ</label>
+            <div class="flex items-center">
+                <input type="text" id="subdomain" placeholder="ຕົວຢ່າງ: myshop, promotion" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-800 text-sm smooth-transition">
+                <span class="bg-slate-100 px-4 py-3 rounded-r-xl border border-l-0 border-slate-300 text-slate-500 flex items-center text-xs sm:text-sm font-mono font-medium">-tiny.surge.sh</span>
+            </div>
+        </div>
+
+        <!-- Tabs Switcher -->
+        <div class="flex bg-slate-200/60 p-1.5 rounded-2xl mb-6 text-xs sm:text-sm font-semibold">
+            <button onclick="switchTab('upload')" id="btn-upload" class="flex-1 py-3 rounded-xl bg-white text-indigo-600 shadow-sm smooth-transition text-center">📂 ອັບໂຫຼດ / ວາງ Code</button>
+            <button onclick="switchTab('template')" id="btn-template" class="flex-1 py-3 rounded-xl text-slate-600 hover:text-slate-900 smooth-transition text-center">🎨 ເລືອກ Template ສຳເລັດຮູບ</button>
+        </div>
+
+        <!-- Option 1: Upload & Paste -->
+        <div id="tab-upload" class="space-y-5">
+            <div class="grid grid-cols-3 gap-2 bg-white/70 p-1.5 rounded-xl border border-slate-200/80 text-xs font-semibold text-center">
+                <button onclick="switchUploadMode('single')" id="sub-single" class="py-2.5 rounded-lg bg-indigo-50 text-indigo-700 shadow-xs smooth-transition">📄 ໄຟລ໌ດຽວ</button>
+                <button onclick="switchUploadMode('multi')" id="sub-multi" class="py-2.5 rounded-lg text-slate-600 hover:text-slate-900 smooth-transition">📂 ຫຼາຍໄຟລ໌</button>
+                <button onclick="switchUploadMode('paste')" id="sub-paste" class="py-2.5 rounded-lg text-slate-600 hover:text-slate-900 smooth-transition">📋 ວາງ Code</button>
+            </div>
+
+            <!-- Single File & Drag Drop -->
+            <div id="upload-single-box" class="space-y-2">
+                <div id="drop-zone" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-2xl p-6 text-center cursor-pointer bg-white/50 smooth-transition">
+                    <p class="text-slate-600 text-sm font-medium mb-1">📁 ລາກໄຟລ໌ HTML ມາວາງທີ່ນີ້</p>
+                    <p class="text-slate-400 text-xs mb-3">ຫຼືກົດປຸ່ມດ້ານລຸ່ມເພື່ອເລືອກໄຟລ໌</p>
+                    <input type="file" id="single-file-input" accept=".html" class="hidden" onchange="handleFileSelected(this)">
+                    <button onclick="document.getElementById('single-file-input').click()" type="button" class="px-4 py-2 bg-indigo-50 text-indigo-600 font-bold text-xs rounded-xl hover:bg-indigo-100 smooth-transition">ເລືອກໄຟລ໌ຈາກເຄື່ອງ</button>
+                    <p id="file-name-display" class="text-xs text-emerald-600 font-semibold mt-2 hidden"></p>
                 </div>
             </div>
 
-            <!-- ໃສ່ HTML Code -->
-            <div>
-                <label class="block text-xs uppercase tracking-wider text-slate-500 mb-1.5 font-bold">HTML Code ຂອງທ່ານ</label>
-                <textarea id="html-code" rows="10" placeholder="<!DOCTYPE html>&#10;<html>&#10;<head><title>My Page</title></head>&#10;<body class='p-6'>&#10;  <h1 class='text-2xl font-bold'>ສະບາຍດີ ໂລກ!</h1>&#10;</body>&#10;</html>" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-4 font-mono text-xs text-emerald-400 outline-none focus:ring-2 focus:ring-indigo-100 transition-all shadow-inner"></textarea>
+            <!-- Multi Files -->
+            <div id="upload-multi-box" class="space-y-2 hidden">
+                <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-2xl p-6 text-center bg-white/50">
+                    <p class="text-slate-600 text-sm font-medium mb-1">📂 ອັບໂຫຼດຫຼາຍໄຟລ໌ພ້ອມກັນ (HTML, CSS, Images)</p>
+                    <input type="file" id="multi-file-input" multiple class="w-full text-xs text-slate-500 mt-2 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100">
+                </div>
             </div>
 
-            <!-- ປຸ່ມ Deploy -->
-            <button onclick="handleDeploy()" id="deploy-btn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-600/20 cursor-pointer text-base flex items-center justify-center space-x-2">
-                <span>Deploy Website 🚀</span>
+            <!-- Paste Code -->
+            <div id="upload-paste-box" class="space-y-2 hidden">
+                <textarea id="paste-code-input" rows="7" placeholder="<!DOCTYPE html>... ວາງ Code HTML ຂອງທ່ານລົງທີ່ນີ້ ..." class="w-full px-4 py-3 bg-slate-900 text-emerald-400 font-mono text-xs border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+            </div>
+
+            <button onclick="handleDeployUpload()" id="deploy-btn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/25 text-sm sm:text-base cursor-pointer">
+                🚀 ເຜີຍແຜ່ເວັບໄຊອອກສູ່ສາທາລະນະ
             </button>
-
-            <!-- กล่องສະແດງຜົນลัพธ์ -->
-            <div id="result-box" class="hidden mt-4 p-4 bg-indigo-50/50 border border-indigo-100 rounded-xl text-sm"></div>
         </div>
 
-        <div class="mt-8 text-center text-slate-400 text-xs">
-            &copy; 2026 TinyWeb. Powered by Cloudflare Worker & GitHub Actions.
+        <!-- Option 2: Templates with Configuration Form -->
+        <div id="tab-template" class="space-y-5 hidden">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">2. ເລືອກຮູບແບບ Template</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <div onclick="selectTemplate('shop')" id="tpl-shop" class="border-2 border-slate-200/80 p-3.5 rounded-2xl cursor-pointer hover:border-indigo-500 bg-white/70 smooth-transition text-center">
+                        <div class="h-16 bg-indigo-50 rounded-xl mb-2 flex items-center justify-center text-xs text-indigo-600 font-bold">🛒 Online Shop</div>
+                        <p class="text-xs font-bold text-slate-700">ເວັບໄຊຮ້ານຄ້າ / ຂາຍສິນຄ້າ</p>
+                    </div>
+                    <div onclick="selectTemplate('landing')" id="tpl-landing" class="border-2 border-slate-200/80 p-3.5 rounded-2xl cursor-pointer hover:border-indigo-500 bg-white/70 smooth-transition text-center">
+                        <div class="h-16 bg-emerald-50 rounded-xl mb-2 flex items-center justify-center text-xs text-emerald-600 font-bold">📢 Promo Landing</div>
+                        <p class="text-xs font-bold text-slate-700">ເວັບໂຄສະນາ / ໂປຣໂມຊັນ</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unified Content & Branding Form for Templates -->
+            <div class="bg-white/70 p-4 sm:p-5 rounded-2xl border border-slate-200/80 space-y-3">
+                <p class="text-xs font-bold text-indigo-600 uppercase tracking-wide">3. ຂໍ້ມູນສຳລັບໃສ່ໃນ Template</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">ຊື່ເວັບໄຊ (Website Name)</label>
+                        <input type="text" id="tpl-name" placeholder="ຕົວຢ່າງ: Mega Shop Lao" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">ຄຳໂປຣໂມດສັ້ນໆ (Tagline)</label>
+                        <input type="text" id="tpl-tagline" placeholder="ສິນຄ້າລາຄາຖືກ ສົ່ງຟົ່ວນທົ່ວປະເທດ" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">ລິ້ງໂລໂກ້ (Logo URL)</label>
+                        <input type="text" id="tpl-logo" placeholder="https://..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">ລິ້ງຮູບພາບ/ແບນເນີ (Banner URL)</label>
+                        <input type="text" id="tpl-banner" placeholder="https://..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">ເນື້ອຫາ / ຫົວຂໍ້ໜ້າເວັບ (Main Content)</label>
+                    <textarea id="tpl-content" rows="2" placeholder="ລາຍລະອຽດສິນຄ້າ ຫຼື ບໍລິການຂອງທ່ານ..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div>
+                        <label class="block text-[10px] font-semibold text-slate-600 mb-1">WhatsApp Phone</label>
+                        <input type="text" id="tpl-whatsapp" placeholder="+85620..." class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-semibold text-slate-600 mb-1">Facebook Page/Profile</label>
+                        <input type="text" id="tpl-facebook" placeholder="facebook.com/..." class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-semibold text-slate-600 mb-1">TikTok Channel</label>
+                        <input type="text" id="tpl-tiktok" placeholder="@username" class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs">
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="handleDeployTemplate()" id="deploy-tpl-btn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-600/25 text-sm sm:text-base cursor-pointer">
+                ✨ ສ້າງ ແລະ ເຜີຍແຜ່ເວັບຈາກ Template ນີ້
+            </button>
         </div>
+
+        <!-- Result Box -->
+        <div id="result-box" class="hidden mt-5 p-4 bg-emerald-50/80 border border-emerald-200 rounded-2xl text-xs sm:text-sm"></div>
     </div>
 
+    <footer class="mt-8 text-slate-500 text-xs text-center font-medium">
+        &copy; 2026 TinyWeb. ພັດທະນາເພື່ອຄົນລາວ ໂດຍ LaoWebs & Cloudflare
+    </footer>
+
+    <!-- JavaScript Logic -->
     <script>
-        async function handleDeploy() {
+        let selectedTemplateName = '';
+        let uploadedHtmlContent = '';
+
+        function switchTab(tab) {
+            document.getElementById('tab-upload').classList.add('hidden');
+            document.getElementById('tab-template').classList.add('hidden');
+
+            document.getElementById('btn-upload').className = "flex-1 py-3 rounded-xl text-slate-600 hover:text-slate-900 smooth-transition text-center";
+            document.getElementById('btn-template').className = "flex-1 py-3 rounded-xl text-slate-600 hover:text-slate-900 smooth-transition text-center";
+
+            if (tab === 'upload') {
+                document.getElementById('tab-upload').classList.remove('hidden');
+                document.getElementById('btn-upload').className = "flex-1 py-3 rounded-xl bg-white text-indigo-600 shadow-sm smooth-transition text-center";
+            } else if (tab === 'template') {
+                document.getElementById('tab-template').classList.remove('hidden');
+                document.getElementById('btn-template').className = "flex-1 py-3 rounded-xl bg-white text-indigo-600 shadow-sm smooth-transition text-center";
+            }
+        }
+
+        function switchUploadMode(mode) {
+            document.getElementById('upload-single-box').classList.add('hidden');
+            document.getElementById('upload-multi-box').classList.add('hidden');
+            document.getElementById('upload-paste-box').classList.add('hidden');
+
+            document.getElementById('sub-single').className = "py-2.5 rounded-lg text-slate-600 hover:text-slate-900 smooth-transition";
+            document.getElementById('sub-multi').className = "py-2.5 rounded-lg text-slate-600 hover:text-slate-900 smooth-transition";
+            document.getElementById('sub-paste').className = "py-2.5 rounded-lg text-slate-600 hover:text-slate-900 smooth-transition";
+
+            if (mode === 'single') {
+                document.getElementById('upload-single-box').classList.remove('hidden');
+                document.getElementById('sub-single').className = "py-2.5 rounded-lg bg-indigo-50 text-indigo-700 shadow-xs smooth-transition";
+            } else if (mode === 'multi') {
+                document.getElementById('upload-multi-box').classList.remove('hidden');
+                document.getElementById('sub-multi').className = "py-2.5 rounded-lg bg-indigo-50 text-indigo-700 shadow-xs smooth-transition";
+            } else if (mode === 'paste') {
+                document.getElementById('upload-paste-box').classList.remove('hidden');
+                document.getElementById('sub-paste').className = "py-2.5 rounded-lg bg-indigo-50 text-indigo-700 shadow-xs smooth-transition";
+            }
+        }
+
+        async function handleFileSelected(input) {
+            if (input.files.length > 0) {
+                const file = input.files[0];
+                uploadedHtmlContent = await file.text();
+                const display = document.getElementById('file-name-display');
+                display.textContent = `✅ ເລືອກໄຟລ໌ແລ້ວ: ${file.name}`;
+                display.classList.remove('hidden');
+            }
+        }
+
+        const dropZone = document.getElementById('drop-zone');
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-indigo-500', 'bg-indigo-50/50'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-indigo-500', 'bg-indigo-50/50'); });
+        dropZone.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-indigo-500', 'bg-indigo-50/50');
+            if (e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                uploadedHtmlContent = await file.text();
+                const display = document.getElementById('file-name-display');
+                display.textContent = `✅ ລາກໄຟລ໌ສຳເລັດ: ${file.name}`;
+                display.classList.remove('hidden');
+            }
+        });
+
+        function selectTemplate(tplName) {
+            selectedTemplateName = tplName;
+            document.getElementById('tpl-shop').className = "border-2 border-slate-200/80 p-3.5 rounded-2xl cursor-pointer bg-white/70 smooth-transition text-center";
+            document.getElementById('tpl-landing').className = "border-2 border-slate-200/80 p-3.5 rounded-2xl cursor-pointer bg-white/70 smooth-transition text-center";
+            
+            if(tplName === 'shop') {
+                document.getElementById('tpl-shop').className = "border-2 border-indigo-600 p-3.5 rounded-2xl cursor-pointer bg-indigo-50/30 smooth-transition text-center shadow-sm";
+            } else if(tplName === 'landing') {
+                document.getElementById('tpl-landing').className = "border-2 border-indigo-600 p-3.5 rounded-2xl cursor-pointer bg-indigo-50/30 smooth-transition text-center shadow-sm";
+            }
+        }
+
+        async function handleDeployTemplate() {
             const subdomain = document.getElementById('subdomain').value.trim().toLowerCase();
-            const htmlContent = document.getElementById('html-code').value.trim();
-            const btn = document.getElementById('deploy-btn');
+            if (!subdomain) {
+                alert('ກະລຸນາຕັ້ງຊື່ທີ່ຢູ່ເວັບໄຊ (Subdomain) ກ່ອນ!');
+                return;
+            }
+            if (!selectedTemplateName) {
+                alert('ກະລຸນາເລືອກ Template ທີ່ທ່ານຕ້ອງການ!');
+                return;
+            }
+
+            // Gather Form Data
+            const name = document.getElementById('tpl-name').value || subdomain;
+            const tagline = document.getElementById('tpl-tagline').value || 'ເວັບໄຊສ່ວນຕົວສ້າງດ້ວຍ TinyWeb';
+            const logo = document.getElementById('tpl-logo').value || 'https://via.placeholder.com/150';
+            const banner = document.getElementById('tpl-banner').value || 'https://via.placeholder.com/800x400';
+            const content = document.getElementById('tpl-content').value || 'ຍິນດີຕ້ອນຮັບສູ່ເວັບໄຊທາງການຂອງພວກເຮົາ';
+            const whatsapp = document.getElementById('tpl-whatsapp').value;
+            const facebook = document.getElementById('tpl-facebook').value;
+            const tiktok = document.getElementById('tpl-tiktok').value;
+
+            // Generate template HTML dynamically with user inputs
+            const htmlContent = `<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${name} - TinyWeb</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans Lao', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+    <div>
+        <header class="bg-white shadow-sm py-4 px-6 flex justify-between items-center max-w-4xl mx-auto">
+            <div class="flex items-center space-x-3">
+                <img src="${logo}" alt="Logo" class="w-10 h-10 rounded-full object-cover border">
+                <span class="font-bold text-lg text-indigo-600">${name}</span>
+            </div>
+            <div class="text-xs text-slate-500 hidden sm:block">${tagline}</div>
+        </header>
+
+        <main class="max-w-4xl mx-auto p-6 mt-6">
+            <div class="rounded-2xl overflow-hidden shadow-lg mb-6 border bg-white">
+                <img src="${banner}" alt="Banner" class="w-full h-48 sm:h-64 object-cover">
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow-sm border text-center">
+                <h1 class="text-3xl font-extrabold text-slate-900 mb-4">${name}</h1>
+                <p class="text-slate-600 text-base mb-6 leading-relaxed">${content}</p>
+                <div class="flex flex-wrap justify-center gap-3">
+                    ${whatsapp ? `<a href="https://wa.me/${whatsapp}" target="_blank" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-sm shadow">WhatsApp Contact</a>` : ''}
+                    ${facebook ? `<a href="https://${facebook}" target="_blank" class="px-5 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm shadow">Facebook Page</a>` : ''}
+                    ${tiktok ? `<a href="https://tiktok.com/${tiktok}" target="_blank" class="px-5 py-2.5 bg-slate-900 text-white font-bold rounded-xl text-sm shadow">TikTok</a>` : ''}
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="text-center py-6 text-slate-400 text-xs">
+        &copy; 2026 ${name}. Powered by TinyWeb & Cloudflare.
+    </footer>
+</body>
+</html>`;
+
+            await sendToCloudflareWorker(subdomain, htmlContent);
+        }
+
+        async function handleDeployUpload() {
+            const subdomain = document.getElementById('subdomain').value.trim().toLowerCase();
+            const pasteCodeElement = document.getElementById('paste-code-input');
+
+            if (!subdomain) {
+                alert('ກະລຸນາຕັ້ງຊື່ທີ່ຢູ່ເວັບໄຊ (Subdomain) ກ່ອນ!');
+                return;
+            }
+
+            let htmlContent = '';
+            if (uploadedHtmlContent) {
+                htmlContent = uploadedHtmlContent;
+            } else if (pasteCodeElement && pasteCodeElement.value.trim() !== '') {
+                htmlContent = pasteCodeElement.value;
+            } else {
+                alert('ກະລຸນາອັບໂຫຼດໄຟລ໌ HTML ຫລື ວາງ Code ຂອງທ່ານກ່ອນ!');
+                return;
+            }
+
+            await sendToCloudflareWorker(subdomain, htmlContent);
+        }
+
+        async function sendToCloudflareWorker(subdomain, htmlContent) {
             const resultBox = document.getElementById('result-box');
-
-            if (!subdomain || !htmlContent) {
-                alert('ກະລຸນາຕື່ມຂໍ້ມູນ Subdomain ແລະ HTML Code ໃຫ້ครบถ้วน!');
-                return;
-            }
-
-            if (!/^[a-z0-9-]+$/.test(subdomain)) {
-                alert('Subdomain ຕ້ອງເປັນພາສາອັງກິດໂຕພິມນ້ອຍ, ຕົວເລກ ຫຼື ເຄື່ອງໝາຍຂີດ (-) เท่านั้น!');
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = 'ກຳລັງ Deploy... ⏳';
             resultBox.classList.add('hidden');
 
-            // ⚡ ປ່ຽນ URL ນີ້ເປັນ Cloudflare Worker URL ຂອງເຈົ້າ (ຕົວຢ່າງ: https://tinyweb-api.yourname.workers.dev)
-            const workerUrl = 'https://tinyweb-api.nirankoon.workers.dev'; 
+            // ⚡ ໃສ່ Cloudflare Worker URL ຂອງເຈົ້າທີ່ນີ້
+            const workerUrl = 'https://tinyweb-api.nirankoon.workers.dev';
 
             try {
                 const response = await fetch(workerUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        subdomain: subdomain, 
-                        htmlContent: htmlContent 
-                    })
+                    body: JSON.stringify({ subdomain, htmlContent })
                 });
 
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    resultBox.innerHTML = `✅ <span class="text-emerald-700 font-bold">Deploy ສຳເລັດແລ້ວ!</span><br>
-                    <span class="text-slate-600 text-xs">GitHub Actions ກຳລັງສ້າງເວັບໄຊທ໌ (ລໍຖ້າປະມານ 30 ວິນາທີ):</span><br>
-                    <a href="${data.url}" target="_blank" class="text-indigo-600 font-semibold underline font-mono mt-1.5 inline-block text-base">${data.url}</a>`;
+                    resultBox.innerHTML = `✅ <span class="text-emerald-700 font-bold">ເຜີຍແຜ່ເວັບໄຊສຳເລັດແລ້ວ!</span><br>
+                    <span class="text-slate-600 text-xs">ສາມາດກົດເຂົ້າໄປເບິ່ງເວັບໄຊຂອງທ່ານໄດ້ທີ່:</span><br>
+                    <a href="${data.url}" target="_blank" class="text-indigo-600 font-bold underline font-mono mt-1 inline-block text-base">${data.url}</a>`;
                     resultBox.classList.remove('hidden');
                 } else {
-                    throw new Error(data.error || 'ເກີດข้อผิดพลาดในการ Deploy');
+                    throw new Error(data.error || 'ເກີດຂໍ້ຜິດພາດໃນການເຜີຍແຜ່');
                 }
             } catch (err) {
-                resultBox.innerHTML = `❌ <span class="text-rose-600 font-bold">ເກີດข้อผิดพลาด:</span> <span class="text-rose-700">${err.message}</span>`;
+                resultBox.innerHTML = `❌ <span class="text-rose-600 font-bold">ເກີດຂໍ້ຜິດພາດ:</span> <span class="text-rose-700">${err.message}</span>`;
                 resultBox.classList.remove('hidden');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Deploy Website 🚀';
             }
         }
     </script>
