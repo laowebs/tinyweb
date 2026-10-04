@@ -19,11 +19,10 @@ export default async function handler(req, res) {
             return res.status(400).json({ success: false, error: 'ຊື່ Subdomain ນີ້ຖືກສະຫງວນໄວ້ແລ້ວ' });
         }
 
-        // 3. ຈັດການຂໍ້ມູນ HTML ຕາມ Mode ທີ່ຜູ້ໃຊ້ເລືອກ (Single, Paste, ຯລຯ)
-        let finalHtml = htmlContent || '<h1>Welcome to ' + subdomain + '.tiny.surge.sh</h1>';
+        // 3. ຈັດການຂໍ້ມູນ HTML ຕາມ Mode ທີ່ຜູ້ໃຊ້ເລືອກ
+        let finalHtml = htmlContent || '<h1>Welcome to ' + subdomain + '-tiny.surge.sh</h1>';
 
-        // 4. ສົ່ງຄຳສັ່ງໄປ GitHub Repository ຂອງເຈົ້າ (ເພື່ອໃຫ້ GitHub Actions ດຶງໄປ Deploy ຂຶ້ນ Surge)
-        // (ໃນຂັ້ນຕອນນີ້ Vercel API จะทำหน้าที่ Commit ไฟล์ HTML ลงใน GitHub ตามชื่อ Subdomain)
+        // 4. ສົ່ງຄຳສັ່ງໄປ GitHub Repository
         const githubToken = process.env.GITHUB_TOKEN;
         const repoOwner = process.env.GITHUB_OWNER; // ບັນຊີ GitHub ຂອງເຈົ້າ
         const repoName = 'tinyweb';
@@ -32,7 +31,33 @@ export default async function handler(req, res) {
             const path = `sites/${subdomain}/index.html`;
             const contentEncoded = Buffer.from(finalHtml).toString('base64');
 
-            // ຍິງ API ໄປ GitHub ເພື່ອສ້າງໄຟລ໌
+            // 4.1 🔍 ກວດສອບກ่อนວ່າໄຟລ໌ນີ້ມີຢູ່ແລ້ວບໍ? (ເພື່ອເອົາມາອັບເດດທັບ)
+            let existingSha = null;
+            const checkRes = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `token ${githubToken}`,
+                    'User-Agent': 'TinyWeb-Builder'
+                }
+            });
+
+            if (checkRes.ok) {
+                const fileData = await checkRes.json();
+                existingSha = fileData.sha; // ຖ້າມີໄຟລ໌ເກົ່າ ຈະໄດ້ SHA ມາ
+            }
+
+            // 4.2 📤 ກະກຽມ Data ສໍາລັບ PUT Request
+            const bodyData = {
+                message: `Deploy site for ${subdomain}-tiny.surge.sh`,
+                content: contentEncoded
+            };
+
+            // ຖ້າມີໄຟລ໌ເກົ່າ ຕ້ອງแนบ sha ໄປນຳ ເພື່ອໃຫ້ GitHub ยอมให้อັບເດດທັບ
+            if (existingSha) {
+                bodyData.sha = existingSha;
+            }
+
+            // ຍິງ API ไป GitHub ເພື່ອສ້າງ ຫຼື ອັບເດດໄຟລ໌
             const ghResponse = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`, {
                 method: 'PUT',
                 headers: {
@@ -40,10 +65,7 @@ export default async function handler(req, res) {
                     'Content-Type': 'application/json',
                     'User-Agent': 'TinyWeb-Builder'
                 },
-                body: JSON.stringify({
-                    message: `Deploy site for ${subdomain}-tiny.surge.sh`,
-                    content: contentEncoded
-                })
+                body: JSON.stringify(bodyData)
             });
 
             if (!ghResponse.ok) {
