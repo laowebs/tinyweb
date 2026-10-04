@@ -41,7 +41,7 @@ export default async function handler(req, res) {
                     'User-Agent': 'TinyWeb-Builder'
                 },
                 body: JSON.stringify({
-                    message: `Deploy site for ${subdomain}.laowebs.com`,
+                    message: `Deploy site for ${subdomain}-tiny.surge.sh`,
                     content: contentEncoded
                 })
             });
