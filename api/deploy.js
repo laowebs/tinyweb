@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         }
 
         // 3. ຈັດການຂໍ້ມູນ HTML ຕາມ Mode ທີ່ຜູ້ໃຊ້ເລືອກ (Single, Paste, ຯລຯ)
-        let finalHtml = htmlContent || '<h1>Welcome to ' + subdomain + '.laowebs.com</h1>';
+        let finalHtml = htmlContent || '<h1>Welcome to ' + subdomain + '.tiny.surge.sh</h1>';
 
         // 4. ສົ່ງຄຳສັ່ງໄປ GitHub Repository ຂອງເຈົ້າ (ເພື່ອໃຫ້ GitHub Actions ດຶງໄປ Deploy ຂຶ້ນ Surge)
         // (ໃນຂັ້ນຕອນນີ້ Vercel API จะทำหน้าที่ Commit ไฟล์ HTML ลงใน GitHub ตามชื่อ Subdomain)
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
         return res.status(200).json({
             success: true,
             message: `ສ້າງເວັບໄຊສຳເລັດແລ້ວ!`,
-            url: `https://${subdomain}.laowebs.com`
+            url: `https://${subdomain}-tiny.surge.sh`
         });
 
     } catch (error) {
