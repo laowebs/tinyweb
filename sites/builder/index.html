@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TinyWeb Builder</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-center p-6">
+
+    <div class="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl">
+        <h1 class="text-2xl font-bold mb-2 text-cyan-400">TinyWeb Builder</h1>
+        <p class="text-slate-400 text-sm mb-6">Create and deploy your custom HTML pages instantly to <span class="text-white font-mono">-tiny.surge.sh</span></p>
+
+        <div class="space-y-4">
+            <!-- Subdomain Input -->
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1 font-semibold">Subdomain Name</label>
+                <div class="flex items-center bg-slate-950 border border-slate-800 rounded-lg overflow-hidden focus-within:border-cyan-500">
+                    <input type="text" id="subdomain" placeholder="my-awesome-site" class="w-full bg-transparent px-4 py-3 text-white outline-none">
+                    <span class="px-4 text-slate-500 bg-slate-900 border-l border-slate-800 text-sm font-mono">-tiny.surge.sh</span>
+                </div>
+            </div>
+
+            <!-- HTML Code Input -->
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1 font-semibold">HTML Code</label>
+                <textarea id="html-code" rows="10" placeholder="<!DOCTYPE html>...<html>..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 font-mono text-xs text-green-400 outline-none focus:border-cyan-500"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button onclick="handleDeploy()" id="deploy-btn" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-lg transition-all shadow-lg shadow-cyan-500/20 cursor-pointer">
+                Deploy Website 🚀
+            </button>
+
+            <!-- Result Box -->
+            <div id="result-box" class="hidden mt-4 p-4 bg-slate-950 border border-slate-800 rounded-lg text-sm"></div>
+        </div>
+    </div>
+
+    <script>
+        async function handleDeploy() {
+            const subdomain = document.getElementById('subdomain').value.trim();
+            const htmlContent = document.getElementById('html-code').value.trim();
+            const btn = document.getElementById('deploy-btn');
+            const resultBox = document.getElementById('result-box');
+
+            if (!subdomain || !htmlContent) {
+                alert('Please fill in both subdomain and HTML code!');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Deploying... ⏳';
+            resultBox.classList.add('hidden');
+
+            try {
+                // เรียก API /api/deploy ທີ່ເຮົາມີຢູ່ແລ້ວ
+                const response = await fetch('/api/deploy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subdomain, html: htmlContent })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultBox.innerHTML = `✅ <span class="text-green-400 font-semibold">Deployed Successfully!</span><br>
+                    <a href="${data.url}" target="_blank" class="text-cyan-400 underline font-mono mt-1 inline-block">${data.url}</a>`;
+                    resultBox.classList.remove('hidden');
+                } else {
+                    throw new Error(data.error || 'Deployment failed');
+                }
+            } catch (err) {
+                resultBox.innerHTML = `❌ <span class="text-red-400 font-semibold">Error:</span> ${err.message}`;
+                resultBox.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Deploy Website 🚀';
+            }
+        }
+    </script>
+</body>
+</html>
