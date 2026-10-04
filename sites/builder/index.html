@@ -152,6 +152,83 @@
         <div id="result-box" class="hidden mt-5 p-4 bg-emerald-50/80 border border-emerald-200 rounded-2xl text-xs sm:text-sm"></div>
     </div>
 
+    <!-- Hidden Templates (Safe & Bug-Free) -->
+    <template id="template-shop">
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>__NAME__</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans Lao', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+    <div>
+        <header class="bg-white shadow-sm py-4 px-6 flex justify-between items-center max-w-4xl mx-auto rounded-b-2xl">
+            <div class="flex items-center space-x-3">
+                <img src="__LOGO__" alt="Logo" class="w-10 h-10 rounded-full object-cover border">
+                <span class="font-bold text-lg text-indigo-600">__NAME__</span>
+            </div>
+            <div class="text-xs text-slate-500 hidden sm:block">__TAGLINE__</div>
+        </header>
+        <main class="max-w-4xl mx-auto p-6 mt-6">
+            <div class="rounded-2xl overflow-hidden shadow-lg mb-6 border bg-white">
+                <img src="__BANNER__" alt="Banner" class="w-full h-48 sm:h-64 object-cover">
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow-sm border text-center">
+                <span class="px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full uppercase">Online Store</span>
+                <h1 class="text-3xl font-extrabold text-slate-900 mt-3 mb-4">__NAME__</h1>
+                <p class="text-slate-600 text-base mb-6 leading-relaxed">__CONTENT__</p>
+                <div class="flex flex-wrap justify-center gap-3">
+                    __WHATSAPP_BTN__
+                    __FACEBOOK_BTN__
+                    __TIKTOK_BTN__
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="text-center py-6 text-slate-400 text-xs">
+        &copy; 2026 __NAME__. Powered by TinyWeb & Cloudflare.
+    </footer>
+</body>
+</html>
+    </template>
+
+    <template id="template-landing">
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>__NAME__</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans Lao', sans-serif; }</style>
+</head>
+<body class="bg-indigo-950 text-white min-h-screen flex flex-col justify-between p-6">
+    <div class="max-w-2xl mx-auto my-auto text-center">
+        <img src="__LOGO__" alt="Logo" class="w-20 h-20 rounded-full object-cover mx-auto mb-6 border-4 border-indigo-500 shadow-xl">
+        <h1 class="text-4xl font-extrabold mb-3">__NAME__</h1>
+        <p class="text-indigo-200 text-base mb-6">__TAGLINE__</p>
+        <p class="text-slate-300 text-sm mb-8 max-w-lg mx-auto leading-relaxed">__CONTENT__</p>
+        <div class="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 mb-8">
+            <p class="text-xs font-semibold mb-4 text-indigo-100 uppercase tracking-wider">ຊ່ອງທາງຕິດຕໍ່ສື່ສານ</p>
+            <div class="flex flex-wrap justify-center gap-3">
+                __WHATSAPP_BTN__
+                __FACEBOOK_BTN__
+                __TIKTOK_BTN__
+            </div>
+        </div>
+    </div>
+    <footer class="text-center py-4 text-indigo-400 text-xs">
+        &copy; 2026 __NAME__. Powered by TinyWeb & Cloudflare.
+    </footer>
+</body>
+</html>
+    </template>
+
     <footer class="mt-8 text-slate-500 text-xs text-center font-medium">
         &copy; 2026 TinyWeb. ພັດທະນາເພື່ອຄົນລາວ ໂດຍ LaoWebs & Cloudflare
     </footer>
@@ -255,86 +332,24 @@
             const facebook = document.getElementById('tpl-facebook').value;
             const tiktok = document.getElementById('tpl-tiktok').value;
 
-            // Safe string building (No nested backticks)
-            let htmlContent = '';
-            
-            let whatsappBtn = whatsapp ? '<a href="https://wa.me/' + whatsapp + '" target="_blank" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-sm shadow hover:bg-emerald-500 transition">💬 WhatsApp</a>' : '';
-            let facebookBtn = facebook ? '<a href="https://' + facebook + '" target="_blank" class="px-5 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm shadow hover:bg-blue-500 transition">👍 Facebook</a>' : '';
-            let tiktokBtn = tiktok ? '<a href="https://tiktok.com/' + tiktok + '" target="_blank" class="px-5 py-2.5 bg-slate-900 text-white font-bold rounded-xl text-sm shadow hover:bg-slate-800 transition">🎵 TikTok</a>' : '';
+            const whatsappBtn = whatsapp ? `<a href="https://wa.me/${whatsapp}" target="_blank" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-sm shadow hover:bg-emerald-500 transition">💬 WhatsApp</a>` : '';
+            const facebookBtn = facebook ? `<a href="https://${facebook}" target="_blank" class="px-5 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm shadow hover:bg-blue-500 transition">👍 Facebook</a>` : '';
+            const tiktokBtn = tiktok ? `<a href="https://tiktok.com/${tiktok}" target="_blank" class="px-5 py-2.5 bg-slate-900 text-white font-bold rounded-xl text-sm shadow hover:bg-slate-800 transition">🎵 TikTok</a>` : '';
 
-            if (selectedTemplateName === 'shop') {
-                htmlContent = '<!DOCTYPE html>\n' +
-                '<html lang="lo">\n' +
-                '<head>\n' +
-                '    <meta charset="UTF-8">\n' +
-                '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
-                '    <title>' + name + '</title>\n' +
-                '    <script src="https://cdn.tailwindcss.com"></script>\n' +
-                '    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&display=swap" rel="stylesheet">\n' +
-                '    <style>body { font-family: \'Noto Sans Lao\', sans-serif; }</style>\n' +
-                '</head>\n' +
-                '<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">\n' +
-                '    <div>\n' +
-                '        <header class="bg-white shadow-sm py-4 px-6 flex justify-between items-center max-w-4xl mx-auto rounded-b-2xl">\n' +
-                '            <div class="flex items-center space-x-3">\n' +
-                '                <img src="' + logo + '" alt="Logo" class="w-10 h-10 rounded-full object-cover border">\n' +
-                '                <span class="font-bold text-lg text-indigo-600">' + name + '</span>\n' +
-                '            </div>\n' +
-                '            <div class="text-xs text-slate-500 hidden sm:block">' + tagline + '</div>\n' +
-                '        </header>\n' +
-                '        <main class="max-w-4xl mx-auto p-6 mt-6">\n' +
-                '            <div class="rounded-2xl overflow-hidden shadow-lg mb-6 border bg-white">\n' +
-                '                <img src="' + banner + '" alt="Banner" class="w-full h-48 sm:h-64 object-cover">\n' +
-                '            </div>\n' +
-                '            <div class="bg-white p-8 rounded-2xl shadow-sm border text-center">\n' +
-                '                <span class="px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full uppercase">Online Store</span>\n' +
-                '                <h1 class="text-3xl font-extrabold text-slate-900 mt-3 mb-4">' + name + '</h1>\n' +
-                '                <p class="text-slate-600 text-base mb-6 leading-relaxed">' + content + '</p>\n' +
-                '                <div class="flex flex-wrap justify-center gap-3">\n' +
-                '                    ' + whatsappBtn + '\n' +
-                '                    ' + facebookBtn + '\n' +
-                '                    ' + tiktokBtn + '\n' +
-                '                </div>\n' +
-                '            </div>\n' +
-                '        </main>\n' +
-                '    </div>\n' +
-                '    <footer class="text-center py-6 text-slate-400 text-xs">\n' +
-                '        &copy; 2026 ' + name + '. Powered by TinyWeb & Cloudflare.\n' +
-                '    </footer>\n' +
-                '</body>\n' +
-                '</html>';
-            } else {
-                htmlContent = '<!DOCTYPE html>\n' +
-                '<html lang="lo">\n' +
-                '<head>\n' +
-                '    <meta charset="UTF-8">\n' +
-                '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
-                '    <title>' + name + '</title>\n' +
-                '    <script src="https://cdn.tailwindcss.com"></script>\n' +
-                '    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&display=swap" rel="stylesheet">\n' +
-                '    <style>body { font-family: \'Noto Sans Lao\', sans-serif; }</style>\n' +
-                '</head>\n' +
-                '<body class="bg-indigo-950 text-white min-h-screen flex flex-col justify-between p-6">\n' +
-                '    <div class="max-w-2xl mx-auto my-auto text-center">\n' +
-                '        <img src="' + logo + '" alt="Logo" class="w-20 h-20 rounded-full object-cover mx-auto mb-6 border-4 border-indigo-500 shadow-xl">\n' +
-                '        <h1 class="text-4xl font-extrabold mb-3">' + name + '</h1>\n' +
-                '        <p class="text-indigo-200 text-base mb-6">' + tagline + '</p>\n' +
-                '        <p class="text-slate-300 text-sm mb-8 max-w-lg mx-auto leading-relaxed">' + content + '</p>\n' +
-                '        <div class="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 mb-8">\n' +
-                '            <p class="text-xs font-semibold mb-4 text-indigo-100 uppercase tracking-wider">ຊ່ອງທາງຕິດຕໍ່ສື່ສານ</p>\n' +
-                '            <div class="flex flex-wrap justify-center gap-3">\n' +
-                '                ' + whatsappBtn + '\n' +
-                '                ' + facebookBtn + '\n' +
-                '                ' + tiktokBtn + '\n' +
-                '            </div>\n' +
-                '        </div>\n' +
-                '    </div>\n' +
-                '    <footer class="text-center py-4 text-indigo-400 text-xs">\n' +
-                '        &copy; 2026 ' + name + '. Powered by TinyWeb & Cloudflare.\n' +
-                '    </footer>\n' +
-                '</body>\n' +
-                '</html>';
-            }
+            // Get template content cleanly from <template> tag
+            const templateId = selectedTemplateName === 'shop' ? 'template-shop' : 'template-landing';
+            let htmlContent = document.getElementById(templateId).innerHTML;
+
+            // Replace Placeholders
+            htmlContent = htmlContent
+                .replace(/__NAME__/g, name)
+                .replace(/__TAGLINE__/g, tagline)
+                .replace(/__LOGO__/g, logo)
+                .replace(/__BANNER__/g, banner)
+                .replace(/__CONTENT__/g, content)
+                .replace(/__WHATSAPP_BTN__/g, whatsappBtn)
+                .replace(/__FACEBOOK_BTN__/g, facebookBtn)
+                .replace(/__TIKTOK_BTN__/g, tiktokBtn);
 
             await sendToCloudflareWorker(subdomain, htmlContent);
         }
@@ -365,7 +380,6 @@
             const resultBox = document.getElementById('result-box');
             resultBox.classList.add('hidden');
 
-            // ⚡ ໃສ່ Cloudflare Worker URL ຂອງເຈົ້າທີ່ນີ້
             const workerUrl = 'https://tinyweb-api.nirankoon.workers.dev';
 
             try {
@@ -378,15 +392,15 @@
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    resultBox.innerHTML = '✅ <span class="text-emerald-700 font-bold">ເຜີຍແຜ່ເວັບໄຊສຳເລັດແລ້ວ!</span><br>' +
-                    '<span class="text-slate-600 text-xs">ສາມາດກົດເຂົ້າໄປເບິ່ງເວັບໄຊຂອງທ່ານໄດ້ທີ່:</span><br>' +
-                    '<a href="' + data.url + '" target="_blank" class="text-indigo-600 font-bold underline font-mono mt-1 inline-block text-base">' + data.url + '</a>';
+                    resultBox.innerHTML = `✅ <span class="text-emerald-700 font-bold">ເຜີຍແຜ່ເວັບໄຊສຳເລັດແລ້ວ!</span><br>
+                    <span class="text-slate-600 text-xs">ສາມາດກົດເຂົ້າໄປເບິ່ງເວັບໄຊຂອງທ່ານໄດ້ທີ່:</span><br>
+                    <a href="${data.url}" target="_blank" class="text-indigo-600 font-bold underline font-mono mt-1 inline-block text-base">${data.url}</a>`;
                     resultBox.classList.remove('hidden');
                 } else {
                     throw new Error(data.error || 'ເກີດຂໍ້ຜິດພາດໃນການເຜີຍແຜ່');
                 }
             } catch (err) {
-                resultBox.innerHTML = '❌ <span class="text-rose-600 font-bold">ເກີດຂໍ້ຜິດພາດ:</span> <span class="text-rose-700">' + err.message + '</span>';
+                resultBox.innerHTML = `❌ <span class="text-rose-600 font-bold">ເກີດຂໍ້ຜິດພາດ:</span> <span class="text-rose-700">${err.message}</span>`;
                 resultBox.classList.remove('hidden');
             }
         }
