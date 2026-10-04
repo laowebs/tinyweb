@@ -19,10 +19,9 @@
 </head>
 <body class="bg-gradient-to-br from-slate-100 via-indigo-50/40 to-slate-200 text-slate-800 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
 
-    <!-- Main Card Container -->
     <div class="max-w-2xl w-full glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl shadow-indigo-500/10 smooth-transition">
         
-        <!-- Header & Branding -->
+        <!-- Header -->
         <div class="text-center mb-8">
             <span class="inline-block px-3.5 py-1 bg-indigo-100/80 text-indigo-700 text-xs font-bold rounded-full uppercase tracking-wider mb-3">Vibe-Code Studio ✨</span>
             <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
@@ -33,7 +32,7 @@
             </p>
         </div>
 
-        <!-- 1. Address / Subdomain Input -->
+        <!-- Subdomain Input -->
         <div class="mb-6 bg-white/70 p-4 rounded-2xl border border-slate-200/80 shadow-sm">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">1. ຕັ້ງຊື່ທີ່ຢູ່ເວັບໄຊຂອງທ່ານ</label>
             <div class="flex items-center">
@@ -42,13 +41,13 @@
             </div>
         </div>
 
-        <!-- Tabs Switcher -->
+        <!-- Tabs -->
         <div class="flex bg-slate-200/60 p-1.5 rounded-2xl mb-6 text-xs sm:text-sm font-semibold">
             <button onclick="switchTab('upload')" id="btn-upload" class="flex-1 py-3 rounded-xl bg-white text-indigo-600 shadow-sm smooth-transition text-center">📂 ອັບໂຫຼດ / ວາງ Code</button>
             <button onclick="switchTab('template')" id="btn-template" class="flex-1 py-3 rounded-xl text-slate-600 hover:text-slate-900 smooth-transition text-center">🎨 ເລືອກ Template ສຳເລັດຮູບ</button>
         </div>
 
-        <!-- Option 1: Upload & Paste -->
+        <!-- Option 1: Upload -->
         <div id="tab-upload" class="space-y-5">
             <div class="grid grid-cols-3 gap-2 bg-white/70 p-1.5 rounded-xl border border-slate-200/80 text-xs font-semibold text-center">
                 <button onclick="switchUploadMode('single')" id="sub-single" class="py-2.5 rounded-lg bg-indigo-50 text-indigo-700 shadow-xs smooth-transition">📄 ໄຟລ໌ດຽວ</button>
@@ -56,7 +55,6 @@
                 <button onclick="switchUploadMode('paste')" id="sub-paste" class="py-2.5 rounded-lg text-slate-600 hover:text-slate-900 smooth-transition">📋 ວາງ Code</button>
             </div>
 
-            <!-- Single File & Drag Drop -->
             <div id="upload-single-box" class="space-y-2">
                 <div id="drop-zone" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-2xl p-6 text-center cursor-pointer bg-white/50 smooth-transition">
                     <p class="text-slate-600 text-sm font-medium mb-1">📁 ລາກໄຟລ໌ HTML ມາວາງທີ່ນີ້</p>
@@ -67,15 +65,13 @@
                 </div>
             </div>
 
-            <!-- Multi Files -->
             <div id="upload-multi-box" class="space-y-2 hidden">
                 <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-2xl p-6 text-center bg-white/50">
-                    <p class="text-slate-600 text-sm font-medium mb-1">📂 ອັບໂຫຼດຫຼາຍໄຟລ໌ພ້ອມກັນ (HTML, CSS, Images)</p>
-                    <input type="file" id="multi-file-input" multiple class="w-full text-xs text-slate-500 mt-2 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100">
+                    <p class="text-slate-600 text-sm font-medium mb-1">📂 ອັບໂຫຼດຫຼາຍໄຟລ໌ພ້ອມກັນ</p>
+                    <input type="file" id="multi-file-input" multiple class="w-full text-xs text-slate-500 mt-2">
                 </div>
             </div>
 
-            <!-- Paste Code -->
             <div id="upload-paste-box" class="space-y-2 hidden">
                 <textarea id="paste-code-input" rows="7" placeholder="<!DOCTYPE html>... ວາງ Code HTML ຂອງທ່ານລົງທີ່ນີ້ ..." class="w-full px-4 py-3 bg-slate-900 text-emerald-400 font-mono text-xs border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
             </div>
@@ -85,7 +81,7 @@
             </button>
         </div>
 
-        <!-- Option 2: Templates with Configuration Form -->
+        <!-- Option 2: Template -->
         <div id="tab-template" class="space-y-5 hidden">
             <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">2. ເລືອກຮູບແບບ Template</label>
@@ -101,18 +97,17 @@
                 </div>
             </div>
 
-            <!-- Unified Content & Branding Form for Templates -->
             <div class="bg-white/70 p-4 sm:p-5 rounded-2xl border border-slate-200/80 space-y-3">
                 <p class="text-xs font-bold text-indigo-600 uppercase tracking-wide">3. ຂໍ້ມູນສຳລັບໃສ່ໃນ Template</p>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">ຊື່ເວັບໄຊ (Website Name)</label>
-                        <input type="text" id="tpl-name" placeholder="ຕົວຢ່າງ: Mega Shop Lao" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">ຊື່ເວັບໄຊ</label>
+                        <input type="text" id="tpl-name" placeholder="ຕົວຢ່າງ: Mega Shop Lao" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs">
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-600 mb-1">ຄຳໂປຣໂມດສັ້ນໆ (Tagline)</label>
-                        <input type="text" id="tpl-tagline" placeholder="ສິນຄ້າລາຄາຖືກ ສົ່ງຟົ່ວນທົ່ວປະເທດ" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+                        <input type="text" id="tpl-tagline" placeholder="ສິນຄ້າລາຄາຖືກ ສົ່ງຟຣີທົ່ວປະເທດ" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs">
                     </div>
                 </div>
 
@@ -128,28 +123,28 @@
                 </div>
 
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">ເນື້ອຫາ / ຫົວຂໍ້ໜ້າເວັບ (Main Content)</label>
-                    <textarea id="tpl-content" rows="2" placeholder="ລາຍລະອຽດສິນຄ້າ ຫຼື ບໍລິການຂອງທ່ານ..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs"></textarea>
+                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">ເນື້ອຫາ / ຫົວຂໍ້ໜ້າເວັບ</label>
+                    <textarea id="tpl-content" rows="2" placeholder="ລາຍລະອຽດສິນຄ້າ..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs"></textarea>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     <div>
-                        <label class="block text-[10px] font-semibold text-slate-600 mb-1">WhatsApp Phone</label>
+                        <label class="block text-[10px] font-semibold text-slate-600 mb-1">WhatsApp</label>
                         <input type="text" id="tpl-whatsapp" placeholder="+85620..." class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-semibold text-slate-600 mb-1">Facebook Page/Profile</label>
+                        <label class="block text-[10px] font-semibold text-slate-600 mb-1">Facebook Page</label>
                         <input type="text" id="tpl-facebook" placeholder="facebook.com/..." class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-semibold text-slate-600 mb-1">TikTok Channel</label>
+                        <label class="block text-[10px] font-semibold text-slate-600 mb-1">TikTok</label>
                         <input type="text" id="tpl-tiktok" placeholder="@username" class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs">
                     </div>
                 </div>
             </div>
 
             <button onclick="handleDeployTemplate()" id="deploy-tpl-btn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-600/25 text-sm sm:text-base cursor-pointer">
-                ✨ ສ້າງ ແລະ ເຜີຍແຜ່ເວັບຈາກ Template ນີ້
+                ✨ ສ້າງ ແລະ ເຜີຍແຜ່ເວັບຈາກ Template ນี้
             </button>
         </div>
 
@@ -251,30 +246,31 @@
                 return;
             }
 
-            // Gather Form Data
             const name = document.getElementById('tpl-name').value || subdomain;
             const tagline = document.getElementById('tpl-tagline').value || 'ເວັບໄຊສ່ວນຕົວສ້າງດ້ວຍ TinyWeb';
-            const logo = document.getElementById('tpl-logo').value || 'https://via.placeholder.com/150';
-            const banner = document.getElementById('tpl-banner').value || 'https://via.placeholder.com/800x400';
+            const logo = document.getElementById('tpl-logo').value || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150';
+            const banner = document.getElementById('tpl-banner').value || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800';
             const content = document.getElementById('tpl-content').value || 'ຍິນດີຕ້ອນຮັບສູ່ເວັບໄຊທາງການຂອງພວກເຮົາ';
             const whatsapp = document.getElementById('tpl-whatsapp').value;
             const facebook = document.getElementById('tpl-facebook').value;
             const tiktok = document.getElementById('tpl-tiktok').value;
 
-            // Generate template HTML dynamically with user inputs
-            const htmlContent = `<!DOCTYPE html>
+            // Generate HTML directly inside Builder
+            let htmlContent = '';
+            if (selectedTemplateName === 'shop') {
+                htmlContent = `<!DOCTYPE html>
 <html lang="lo">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${name} - TinyWeb</title>
+    <title>${name}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>body { font-family: 'Noto Sans Lao', sans-serif; }</style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
     <div>
-        <header class="bg-white shadow-sm py-4 px-6 flex justify-between items-center max-w-4xl mx-auto">
+        <header class="bg-white shadow-sm py-4 px-6 flex justify-between items-center max-w-4xl mx-auto rounded-b-2xl">
             <div class="flex items-center space-x-3">
                 <img src="${logo}" alt="Logo" class="w-10 h-10 rounded-full object-cover border">
                 <span class="font-bold text-lg text-indigo-600">${name}</span>
@@ -287,12 +283,13 @@
                 <img src="${banner}" alt="Banner" class="w-full h-48 sm:h-64 object-cover">
             </div>
             <div class="bg-white p-8 rounded-2xl shadow-sm border text-center">
-                <h1 class="text-3xl font-extrabold text-slate-900 mb-4">${name}</h1>
+                <span class="px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full uppercase">Online Store</span>
+                <h1 class="text-3xl font-extrabold text-slate-900 mt-3 mb-4">${name}</h1>
                 <p class="text-slate-600 text-base mb-6 leading-relaxed">${content}</p>
                 <div class="flex flex-wrap justify-center gap-3">
-                    ${whatsapp ? `<a href="https://wa.me/${whatsapp}" target="_blank" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-sm shadow">WhatsApp Contact</a>` : ''}
-                    ${facebook ? `<a href="https://${facebook}" target="_blank" class="px-5 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm shadow">Facebook Page</a>` : ''}
-                    ${tiktok ? `<a href="https://tiktok.com/${tiktok}" target="_blank" class="px-5 py-2.5 bg-slate-900 text-white font-bold rounded-xl text-sm shadow">TikTok</a>` : ''}
+                    ${whatsapp ? `<a href="https://wa.me/${whatsapp}" target="_blank" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-sm shadow hover:bg-emerald-500 transition">💬 WhatsApp</a>` : ''}
+                    ${facebook ? `<a href="https://${facebook}" target="_blank" class="px-5 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm shadow hover:bg-blue-500 transition">👍 Facebook</a>` : ''}
+                    ${tiktok ? `<a href="https://tiktok.com/${tiktok}" target="_blank" class="px-5 py-2.5 bg-slate-900 text-white font-bold rounded-xl text-sm shadow hover:bg-slate-800 transition">🎵 TikTok</a>` : ''}
                 </div>
             </div>
         </main>
@@ -302,6 +299,39 @@
     </footer>
 </body>
 </html>`;
+            } else {
+                htmlContent = `<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${name}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Noto Sans Lao', sans-serif; }</style>
+</head>
+<body class="bg-indigo-950 text-white min-h-screen flex flex-col justify-between p-6">
+    <div class="max-w-2xl mx-auto my-auto text-center">
+        <img src="${logo}" alt="Logo" class="w-20 h-20 rounded-full object-cover mx-auto mb-6 border-4 border-indigo-500 shadow-xl">
+        <h1 class="text-4xl font-extrabold mb-3">${name}</h1>
+        <p class="text-indigo-200 text-base mb-6">${tagline}</p>
+        <p class="text-slate-300 text-sm mb-8 max-w-lg mx-auto leading-relaxed">${content}</p>
+        
+        <div class="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 mb-8">
+            <p class="text-xs font-semibold mb-4 text-indigo-100 uppercase tracking-wider">ຊ່ອງທາງຕິດຕໍ່ສື່ສານ</p>
+            <div class="flex flex-wrap justify-center gap-3">
+                ${whatsapp ? `<a href="https://wa.me/${whatsapp}" target="_blank" class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-xl text-xs shadow">WhatsApp</a>` : ''}
+                ${facebook ? `<a href="https://${facebook}" target="_blank" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs shadow">Facebook</a>` : ''}
+                ${tiktok ? `<a href="https://tiktok.com/${tiktok}" target="_blank" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs shadow">TikTok</a>` : ''}
+            </div>
+        </div>
+    </div>
+    <footer class="text-center py-4 text-indigo-400 text-xs">
+        &copy; 2026 ${name}. Powered by TinyWeb & Cloudflare.
+    </footer>
+</body>
+</html>`;
+            }
 
             await sendToCloudflareWorker(subdomain, htmlContent);
         }
@@ -333,7 +363,7 @@
             resultBox.classList.add('hidden');
 
             // ⚡ ໃສ່ Cloudflare Worker URL ຂອງເຈົ້າທີ່ນີ້
-            const workerUrl = 'https://tinyweb-api.nirankoon.workers.dev';
+            const workerUrl = 'https://tinyweb-api.YOUR-NAME.workers.dev';
 
             try {
                 const response = await fetch(workerUrl, {
