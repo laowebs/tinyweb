@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TinyWeb - ສ້າງເວັບໄຊໃນ 1 ນາທີ ດ້ວຍຕົນເອງ</title>
+    <title>TinyWeb - ສ້າງເວັບໄຊໃນ ໑ ນາທີ ດ້ວຍຕົນເອງ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -94,7 +94,7 @@
         <!-- ================= STEP 3B: TEMPLATE SELECTOR ================= -->
         <div id="step-3-template-select" class="space-y-4 hidden">
             <div class="flex justify-between items-center">
-                <span class="text-xs font-bold text-slate-500 uppercase">🎨 ເเลือกຮູບແບບ Template</span>
+                <span class="text-xs font-bold text-slate-500 uppercase">🎨 ເລືອກຮູບແບບ Template</span>
                 <button onclick="goToStep(2)" class="text-[11px] text-slate-400 hover:text-slate-600 underline">ປ່ຽນວິທີ</button>
             </div>
             
@@ -167,10 +167,16 @@
         </div>
 
         <!-- ================= STEP 4: LOADING & SUCCESS (MODAL/BOX) ================= -->
-        <div id="step-4-loading" class="hidden text-center py-10 space-y-4">
+        <div id="step-4-loading" class="hidden text-center py-8 space-y-4">
             <div class="inline-block w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-sm font-bold text-slate-700">🚀 กำลังสร้าง และ เຜີຍແຜ່ເວັບໄຊຂອງທ່ານ...</p>
-            <p class="text-xs text-slate-400">ກະລຸນາລໍຖ້າຈັກຄູ່...</p>
+            <div class="space-y-1">
+                <p id="loading-status-text" class="text-sm font-bold text-slate-700">🚀 กำลังส่งข้อมูลไปยัง GitHub Actions...</p>
+                <p class="text-xs text-slate-400">ກະລຸນາລໍຖ້າຈັກຄູ່ (GitHub Workflow & Surge Deploy ພວມເຮັດວຽກ)...</p>
+            </div>
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-500"></div>
+            </div>
         </div>
 
         <div id="step-4-success" class="hidden text-center py-6 space-y-4">
@@ -179,7 +185,7 @@
             <p class="text-xs text-slate-600">ສາມາດກົດເຂົ້າໄປເບິ່ງເວັບໄຊຂອງທ່ານໄດ້ທີ່:</p>
             <div id="success-link-box" class="p-3 bg-indigo-50 border border-indigo-200 rounded-xl"></div>
             <button onclick="location.reload()" class="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-xl transition">
-                🔄 ສ້າງເວັບໄຊใหມ່
+                🔄 ສ້າງເວັບໄຊໃໝ່
             </button>
         </div>
     </div>
@@ -306,7 +312,7 @@
             if (mode === 'code') {
                 htmlContent = document.getElementById('paste-code-input').value.trim();
                 if (!htmlContent) {
-                    alert('ກະລຸນາວາງ Code HTML ຂອງທ່ານກ่อน!');
+                    alert('ກະລຸນາວາງ Code HTML ຂອງທ່ານກ່ອນ!');
                     return;
                 }
             } else {
@@ -335,29 +341,45 @@
                     .replace(/__TIKTOK_BTN__/g, tiktokBtn);
             }
 
-            // ซ่อนฟອມທັງໝົດ ແລ້ວแสดง Loading Animation
+            // ซ่อนฟອມທັງໝົດ ແລ້ວแสดง Loading Animation พร้อมจำลองขั้นตอน GitHub Actions
             document.getElementById('step-3-code').classList.add('hidden');
             document.getElementById('step-3-template-form').classList.add('hidden');
             document.getElementById('step-dot-3').className = "px-3 py-1 rounded-full bg-slate-200 text-slate-500";
             document.getElementById('step-4-loading').classList.remove('hidden');
 
+            const statusText = document.getElementById('loading-status-text');
+            const progressBar = document.getElementById('progress-bar');
+
+            // จำลองสเตັບการทำงานเพื่อให้ผู้ใช้เห็นว่าระบบกำลังรัน GitHub Actions จริงๆ
+            progressBar.style.width = '25%';
+            statusText.textContent = '🚀 กำลังส่ง Code ไปยัง GitHub Repository...';
+
             const workerUrl = 'https://tinyweb-api.nirankoon.workers.dev';
 
             try {
-                const response = await fetch(workerUrl, {
+                // เริ่มส่ง Request จริงไปยัง Worker
+                const fetchPromise = fetch(workerUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ subdomain: currentSubdomain, htmlContent })
                 });
 
+                // จำลอง Progress ระหว่างรอกลุ่ม GitHub Actions / Surge Deploy
+                setTimeout(() => { progressBar.style.width = '50%'; statusText.textContent = '⚙️ GitHub Actions กำลัง Trigger Build...'; }, 4000);
+                setTimeout(() => { progressBar.style.width = '75%'; statusText.textContent = '🌐 กำลัง Deploy ขึ้น Surge.sh...'; }, 9000);
+
+                const response = await fetchPromise;
                 const data = await response.json();
 
                 if (response.ok && data.success) {
+                    progressBar.style.width = '100%';
+                    statusText.textContent = '✅ Deploy สำเร็จเรียบร้อย!';
+                    
                     setTimeout(() => {
                         document.getElementById('step-4-loading').classList.add('hidden');
                         document.getElementById('success-link-box').innerHTML = `<a href="${data.url}" target="_blank" class="text-indigo-600 font-bold underline font-mono text-sm break-all">${data.url}</a>`;
                         document.getElementById('step-4-success').classList.remove('hidden');
-                    }, 1000); // หน่วงเวลาให้เห็น animation เล็กน้อยเพื่อความสมจริง
+                    }, 800);
                 } else {
                     throw new Error(data.error || 'ເກີດຂໍ້ຜິດພາດໃນການເຜີຍແຜ່');
                 }
