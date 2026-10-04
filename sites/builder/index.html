@@ -55,16 +55,24 @@
             resultBox.classList.add('hidden');
 
             try {
-                // เรียก API /api/deploy ທີ່ເຮົາມີຢູ່ແລ້ວ
                 const response = await fetch('/api/deploy', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ subdomain, html: htmlContent })
+                    body: JSON.stringify({ 
+                        subdomain: subdomain, 
+                        htmlContent: htmlContent // ⚠️ ປ່ຽນຈາກ html ມາເປັນ htmlContent ໃຫ້ກົງກັບ deploy.js
+                    })
                 });
 
-                const data = await response.json();
+                const textResponse = await response.text(); // ອ່ານເປັນ Text ກ່ອນ ເພື່ອປ້ອງກັນ JSON Parse Error
+                let data;
+                try {
+                    data = JSON.parse(textResponse);
+                } catch (e) {
+                    throw new Error("Server returned HTML/Text instead of JSON: " + textResponse.substring(0, 100));
+                }
 
-                if (response.ok) {
+                if (response.ok && data.success) {
                     resultBox.innerHTML = `✅ <span class="text-green-400 font-semibold">Deployed Successfully!</span><br>
                     <a href="${data.url}" target="_blank" class="text-cyan-400 underline font-mono mt-1 inline-block">${data.url}</a>`;
                     resultBox.classList.remove('hidden');
