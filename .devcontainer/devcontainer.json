@@ -1,7 +1,11 @@
 {
-  "name": "TinyWeb DevContainer",
+  "name": "TinyWeb AI & Node Environment",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20-bullseye",
   
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -11,8 +15,7 @@
     }
   },
 
-  // 💡 ຄຳສັ່ງນີ້ຈະรันຕິດຕັ້ງ Surge ໃຫ້ອັດຕະໂນມັດທັນທີ ຫຼັງຈາກ Codespace ເປີດຂຶ້ນມາ
-  "postCreateCommand": "npm install -g surge",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
 
-  "forwardPorts": [5500]
+  "forwardPorts": [3000, 5500]
 }
